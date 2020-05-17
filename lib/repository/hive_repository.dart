@@ -25,7 +25,6 @@ class HiveRepository {
       List<Todo> todayList = [];
       todayList.add(todo);
       box.put(todo.date, todayList);
-      print('lol');
     } else {
       var todayList = box.get(todo.date) as List<dynamic>;
       todayList.add(todo);

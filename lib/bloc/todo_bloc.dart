@@ -43,7 +43,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       String date = event.todo.date;
       hiveRepo.addTodo(event.todo);
       List<dynamic> todayList = hiveRepo.getTodo(date);
-      print(todayList.length);
       yield GetTodoState(todayList);
     
     } else if (event is DeleteTodoEvent) {
