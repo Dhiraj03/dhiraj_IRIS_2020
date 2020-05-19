@@ -8,9 +8,10 @@ part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  HiveRepository hiveRepo;   // An instance of the class HiveRepo which is used to make calls to Hive
+  HiveRepository
+      hiveRepo; // An instance of the class HiveRepo which is used to make calls to Hive
   TodoBloc(this.hiveRepo);
-  
+
   // Returns the TodoInitial state
   @override
   TodoState get initialState => TodoInitial();
@@ -27,34 +28,29 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   Stream<TodoState> mapEventToState(
     TodoEvent event,
   ) async* {
-    
     if (event is GetTodoEvent) {
       String date = event.date;
-    
-    //If the list for the particular day is empty, then the TodoInitial state is returned
+
+      //If the list for the particular day is empty, then the TodoInitial state is returned
       if (hiveRepo.getTodo(date) == null)
         yield TodoInitial();
       else {
         List<dynamic> todayList = hiveRepo.getTodo(date);
         yield GetTodoState(todayList);
       }
-    
     } else if (event is AddTodoEvent) {
       String date = event.todo.date;
       hiveRepo.addTodo(event.todo);
       List<dynamic> todayList = hiveRepo.getTodo(date);
       yield GetTodoState(todayList);
-    
     } else if (event is DeleteTodoEvent) {
       hiveRepo.deleteTodo(event.today, event.index);
       List<dynamic> todayList = hiveRepo.getTodo(event.today);
       yield GetTodoState(todayList);
-    
     } else if (event is CompleteTodoEvent) {
       hiveRepo.completeTodo(event.today, event.index, event.value);
       List<dynamic> todayList = hiveRepo.getTodo(event.today);
       yield GetTodoState(todayList);
-    
     } else if (event is UpdateTodoEvent) {
       hiveRepo.updateTodo(event.today, event.index, event.todo);
       List<dynamic> todayList = hiveRepo.getTodo(event.today);

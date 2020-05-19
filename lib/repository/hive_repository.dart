@@ -2,23 +2,23 @@ import 'dart:core';
 import 'package:bloc_todo/data/todo.dart';
 import 'package:hive/hive.dart';
 
-abstract class Repository {   
+abstract class Repository {
   const Repository();
 }
 
 class HiveRepository {
-  
   // getTodo is a function that receives the date (String) and returns a list of todos
   List<dynamic> getTodo(String date) {
     final Box box = Hive.box<dynamic>('todo1');
     List<dynamic> todayList = box.get(date) as List<dynamic>;
+    print(todayList);
     return todayList;
   }
 
   // addTodo takes an instance of the Todo class as argument and store it in the key-entry associated with the date
   void addTodo(Todo todo) {
     final Box box = Hive.box<dynamic>('todo1');
-    
+
     /* if the list is not null (a todo item already exists, then it is retrieved and then updated and stored) 
     and if it doesn't exist,a list is created, the todo item is added and then stored*/
     if (box.get(todo.date) == null) {
