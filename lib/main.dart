@@ -118,8 +118,10 @@ class _HomePageState extends State<HomePage> {
 
   Future<dynamic> onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
-    await Navigator.push<dynamic>(context,
-        MaterialPageRoute<dynamic>(builder: (BuildContext context) => MyApp()));
+    await Navigator.push<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => HomePage()));
   }
 
   // When the notification is clicked, it takes you to the app
@@ -127,8 +129,7 @@ class _HomePageState extends State<HomePage> {
     if (payload != null) {
       debugPrint('Notification payload : $payload');
     }
-    await Navigator.push<dynamic>(context,
-        MaterialPageRoute<dynamic>(builder: (BuildContext context) => MyApp()));
+    
   }
 
   @override
